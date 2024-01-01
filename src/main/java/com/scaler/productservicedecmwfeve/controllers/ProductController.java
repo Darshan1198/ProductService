@@ -1,6 +1,8 @@
 package com.scaler.productservicedecmwfeve.controllers;
 
 import com.scaler.productservicedecmwfeve.models.Product;
+import com.scaler.productservicedecmwfeve.services.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,6 +13,16 @@ import java.util.List;
 public class ProductController {
 
 
+    private ProductService productService;
+
+    @Autowired
+    public ProductController(ProductService productService){
+        this.productService= productService;
+    }
+
+
+
+
     @GetMapping() // it just needs localhost:8080/products
     public List<Product> getAllProduct(){  //getallproduct does not  need any parameter
         return   new ArrayList<>();
@@ -18,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/{id}") //this  id should be  passed in the path variable
     public  Product  getSingleProduct(@PathVariable("id") Long id){  // id will be present in the  path of the  url{id}
-        return  new Product();
+        return  productService.getSingleProduct(id);  //All the  business logic we have  where should it  present  is it  part of  controller No, it  should be in  service
     }
 
     @PostMapping()
