@@ -1,12 +1,16 @@
 package com.scaler.productservicedecmwfeve.services;
 
 import com.scaler.productservicedecmwfeve.dto.FakeStoreProductDto;
+import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
 import com.scaler.productservicedecmwfeve.models.Category;
 import com.scaler.productservicedecmwfeve.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.lang.reflect.GenericArrayType;
+
 @Service
 public class FakeStoreProductService implements  ProductService{
 
@@ -36,6 +40,16 @@ public class FakeStoreProductService implements  ProductService{
 
         return product;
     }
+
+    private FakeStoreProductDto productToFakestoreProduct(GenericProductDto product){
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setTitle(product.getTitle());
+        fakeStoreProductDto.setPrice(product.getPrice());
+        fakeStoreProductDto.setDescription(product.getDescription());
+        fakeStoreProductDto.setImage(product.getImage());
+        fakeStoreProductDto.setCategory(product.getTitle());
+        return fakeStoreProductDto;
+    }
     @Override
     public Product getSingleProduct(Long  id) {
         FakeStoreProductDto productDto = restTemplate.getForObject("https://fakestoreapi.com/products/1"+id,FakeStoreProductDto.class );
@@ -52,5 +66,13 @@ public class FakeStoreProductService implements  ProductService{
         //  that is only there to call DTO  we will store the exact attributes in the FakeStoreDto
         return convertFakeStoreProductToProduct(productDto);
     }
+
+    @Override
+    public FakeStoreProductDto addNewProduct(GenericProductDto product) {
+        GenericProductDto productDto  = restTemplate.postForObject("https://fakestoreapi.com/products",product,GenericProductDto.class);
+        return productToFakestoreProduct(productDto);
+
+    }
+
 
 }

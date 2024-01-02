@@ -1,5 +1,7 @@
 package com.scaler.productservicedecmwfeve.controllers;
 
+import com.scaler.productservicedecmwfeve.dto.FakeStoreProductDto;
+import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
 import com.scaler.productservicedecmwfeve.models.Product;
 import com.scaler.productservicedecmwfeve.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +36,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public Product addNewProduct(@RequestBody Product product){  // the attributes present in the details of the  product that is commin from request body
-        Product p =  new Product();
-        p.setTitle("A new product");
-        return p;
+    public FakeStoreProductDto addNewProduct(@RequestBody GenericProductDto genericProduct){  // the attributes present in the details of the  product that is commin from request body
+        return productService.addNewProduct(genericProduct);
     }
 
     @PatchMapping("/{id}")
