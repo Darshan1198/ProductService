@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.GenericArrayType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FakeStoreProductService implements  ProductService{
@@ -71,6 +73,21 @@ public class FakeStoreProductService implements  ProductService{
     public FakeStoreProductDto addNewProduct(GenericProductDto product) {
         GenericProductDto productDto  = restTemplate.postForObject("https://fakestoreapi.com/products",product,GenericProductDto.class);
         return productToFakestoreProduct(productDto);
+
+    }
+
+
+    @Override
+    public List<Product> getAllProducts(){
+
+//        List<FakeStoreProductDto> response =  restTemplate.getForObject("https://fakestoreapi.com/products",List<FakeStoreProductDto>.class); //type erasure
+//        List<FakeStoreProductDto> response =  restTemplate.getForObject("https://fakestoreapi.com/products",List.class); // just because  run  time will not know  what is the  type of object
+        FakeStoreProductDto[] response = restTemplate.getForObject("https://fakestoreapi.com/products", FakeStoreProductDto[].class);
+        List<Product> answer  = new ArrayList<>();
+        for(FakeStoreProductDto dto: response){
+            answer.add(convertFakeStoreProductToProduct(dto));
+        }
+        return answer;
 
     }
 

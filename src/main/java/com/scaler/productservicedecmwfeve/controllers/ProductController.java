@@ -27,7 +27,7 @@ public class ProductController {
 
     @GetMapping() // it just needs localhost:8080/products
     public List<Product> getAllProduct(){  //getallproduct does not  need any parameter
-        return   new ArrayList<>();
+        return   productService.getAllProducts();
     }
 
     @GetMapping("/{id}") //this  id should be  passed in the path variable
