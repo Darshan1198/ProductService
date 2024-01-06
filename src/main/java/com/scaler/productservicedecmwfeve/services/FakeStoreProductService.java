@@ -6,11 +6,15 @@ import com.scaler.productservicedecmwfeve.models.Category;
 import com.scaler.productservicedecmwfeve.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.SpringApplicationEvent;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpMessageConverterExtractor;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -89,6 +93,18 @@ public class FakeStoreProductService implements  ProductService{
         }
         return answer;
 
+    }
+
+    @Override
+    public Product replaceProduct(Long id, Product product) {
+//        restTemplate.put();  this is  void type so we need  to deep into low level stuff  put internally uses exchange
+//        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
+//        HttpMessageConverterExtractor<T> responseExtractor = new HttpMessageConverterExtractor(responseType,getMessageConverters(),logger);
+//        return restTemplate.execute("https://fakestoreapi.com/products/" +id, HttpMethod.PUT, requestCallback, responseExtractor,new HashMap<String, String >());
+        RequestCallback requestCallback =restTemplate.httpEntityCallback(new FakeStoreProductDto(), FakeStoreProductDto.class);
+        HttpMessageConverterExtractor<FakeStoreProductDto> responseExtractor = new HttpMessageConverterExtractor(FakeStoreProductDto.class, restTemplate.getMessageConverters());
+        FakeStoreProductDto  response  = restTemplate.execute("https://fakestoreapi.com/products/"+ id, HttpMethod.POST, requestCallback, responseExtractor,new Object[]{});
+        return convertFakeStoreProductToProduct(response);
     }
 
 

@@ -5,6 +5,8 @@ import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
 import com.scaler.productservicedecmwfeve.models.Product;
 import com.scaler.productservicedecmwfeve.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,8 +28,9 @@ public class ProductController {
 
 
     @GetMapping() // it just needs localhost:8080/products
-    public List<Product> getAllProduct(){  //getallproduct does not  need any parameter
-        return   productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProduct(){  //getallproduct does not  need any parameter
+        ResponseEntity<List<Product>> response = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        return  response;
     }
 
     @GetMapping("/{id}") //this  id should be  passed in the path variable

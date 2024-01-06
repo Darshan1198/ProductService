@@ -12,4 +12,6 @@ public interface ProductService {
     FakeStoreProductDto addNewProduct(GenericProductDto product);
 
     List<Product> getAllProducts();
+
+    Product  replaceProduct(Long  id,  Product product);
 }
