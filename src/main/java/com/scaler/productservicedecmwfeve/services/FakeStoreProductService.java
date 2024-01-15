@@ -2,6 +2,7 @@ package com.scaler.productservicedecmwfeve.services;
 
 import com.scaler.productservicedecmwfeve.dto.FakeStoreProductDto;
 import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
+import com.scaler.productservicedecmwfeve.exception.ProductNotExistsException;
 import com.scaler.productservicedecmwfeve.models.Category;
 import com.scaler.productservicedecmwfeve.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class FakeStoreProductService implements  ProductService{
         return fakeStoreProductDto;
     }
     @Override
-    public Product getSingleProduct(Long  id) {
+    public Product getSingleProduct(Long  id)  throws ProductNotExistsException{
         FakeStoreProductDto productDto = restTemplate.getForObject("https://fakestoreapi.com/products/1"+id,FakeStoreProductDto.class );
 
                 // the  object that we  wil get  externally is this //output
@@ -70,6 +71,11 @@ public class FakeStoreProductService implements  ProductService{
         //                image:'...'
         //            }  we dont have any object exactly like this, when  ever  we are  talking  externally that data type
         //  that is only there to call DTO  we will store the exact attributes in the FakeStoreDto
+        if(productDto ==null){
+            throw new ProductNotExistsException(
+                    "Product"+id+"doesn't exists");
+
+        }
         return convertFakeStoreProductToProduct(productDto);
     }
 
@@ -96,7 +102,7 @@ public class FakeStoreProductService implements  ProductService{
     }
 
     @Override
-    public Product replaceProduct(Long id, Product product) {
+    public Product replaceProduct(Long id, GenericProductDto product) {
 //        restTemplate.put();  this is  void type so we need  to deep into low level stuff  put internally uses exchange
 //        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
 //        HttpMessageConverterExtractor<T> responseExtractor = new HttpMessageConverterExtractor(responseType,getMessageConverters(),logger);

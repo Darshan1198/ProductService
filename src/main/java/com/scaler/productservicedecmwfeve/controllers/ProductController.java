@@ -2,6 +2,7 @@ package com.scaler.productservicedecmwfeve.controllers;
 
 import com.scaler.productservicedecmwfeve.dto.FakeStoreProductDto;
 import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
+import com.scaler.productservicedecmwfeve.exception.ProductNotExistsException;
 import com.scaler.productservicedecmwfeve.models.Product;
 import com.scaler.productservicedecmwfeve.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}") //this  id should be  passed in the path variable
-    public  Product  getSingleProduct(@PathVariable("id") Long id){  // id will be present in the  path of the  url{id}
-        return  productService.getSingleProduct(id);  //All the  business logic we have  where should it  present  is it  part of  controller No, it  should be in  service
+    public  ResponseEntity<Product>  getSingleProduct(@PathVariable("id") Long id) throws ProductNotExistsException {  // id will be present in the  path of the  url{id}
+//        int a= 1/0;
+        return new ResponseEntity<>(productService.getSingleProduct(id), HttpStatus.OK) ;  //All the  business logic we have  where should it  present  is it  part of  controller No, it  should be in  service
     }
 
     @PostMapping()
@@ -49,12 +51,18 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable("id" )Long id, @RequestBody Product product){
-        return   new Product();
+    public Product replaceProduct(@PathVariable("id" )Long id, @RequestBody GenericProductDto product){
+        return   productService.replaceProduct(id, product);
     }
 
     @DeleteMapping("{id}")
     public void  deleteProduct(@PathVariable("id" )Long id){
     }
+
+    @ExceptionHandler(ProductNotExistsException.class)
+    public  ResponseEntity<Void> handleProductNotExistsException(){
+        return   new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
 
 }
