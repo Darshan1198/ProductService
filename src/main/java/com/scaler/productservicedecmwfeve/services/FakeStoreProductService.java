@@ -79,13 +79,20 @@ public class FakeStoreProductService implements  ProductService{
         return convertFakeStoreProductToProduct(productDto);
     }
 
+//    @Override
+//    public FakeStoreProductDto addNewProduct(GenericProductDto product) {
+//        GenericProductDto productDto  = restTemplate.postForObject("https://fakestoreapi.com/products",product,GenericProductDto.class);
+//        return productToFakestoreProduct(productDto);
+//
+//    }
+     public  Product addNewProduct(Product product){
+        return  null;
+     }
+
     @Override
-    public FakeStoreProductDto addNewProduct(GenericProductDto product) {
-        GenericProductDto productDto  = restTemplate.postForObject("https://fakestoreapi.com/products",product,GenericProductDto.class);
-        return productToFakestoreProduct(productDto);
-
+    public Product updateProduct(Long id, Product product) {
+        return null;
     }
-
 
     @Override
     public List<Product> getAllProducts(){
@@ -99,6 +106,11 @@ public class FakeStoreProductService implements  ProductService{
         }
         return answer;
 
+    }
+
+    @Override
+    public boolean deleteProduct(Long id) {
+        return false;
     }
 
     @Override

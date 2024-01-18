@@ -42,8 +42,8 @@ public class ProductController {
     }
 
     @PostMapping()
-    public FakeStoreProductDto addNewProduct(@RequestBody GenericProductDto genericProduct){  // the attributes present in the details of the  product that is commin from request body
-        return productService.addNewProduct(genericProduct);
+    public Product addNewProduct(@RequestBody Product  product){  // the attributes present in the details of the  product that is commin from request body
+        return productService.addNewProduct(product);
     }
 
     @PatchMapping("/{id}")

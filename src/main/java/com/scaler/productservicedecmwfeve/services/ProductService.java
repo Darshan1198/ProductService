@@ -10,9 +10,12 @@ import java.util.List;
 public interface ProductService {
     Product getSingleProduct(Long  id) throws ProductNotExistsException;
 
-    FakeStoreProductDto addNewProduct(GenericProductDto product);
+    Product addNewProduct(Product product );
 
+    Product updateProduct(Long id, Product  product);
     List<Product> getAllProducts();
+
+    boolean deleteProduct(Long id);
 
     Product  replaceProduct(Long  id,  GenericProductDto product);
 }
