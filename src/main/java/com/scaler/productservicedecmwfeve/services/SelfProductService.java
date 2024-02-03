@@ -11,9 +11,11 @@ import lombok.Setter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Primary
 @Service("selfProductService")
 public class SelfProductService implements  ProductService{
     private  ProductRepository productRepository;
@@ -25,10 +27,9 @@ public class SelfProductService implements  ProductService{
     }
     @Override
     public Product getSingleProduct(Long id) throws ProductNotExistsException {
-        Optional<Product>  productOptional  = productRepository.findById(1L);
+        Optional<Product>  productOptional  = productRepository.findById(id);
         if(productOptional.isEmpty()){ // this is  asically to check  is  some thing  exist in the  optional  or not
                         throw  new  ProductNotExistsException("Product With id :"+ id + "doesn't  exixt  exception");
-
         }
         Product product = productOptional.get();
         return   product;
@@ -77,7 +78,9 @@ public class SelfProductService implements  ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+        List<Product> productList  = productRepository.getAllProduct();
+        return   productList;
+
     }
 
     @Override

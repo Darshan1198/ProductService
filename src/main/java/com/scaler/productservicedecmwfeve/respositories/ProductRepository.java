@@ -1,5 +1,6 @@
 package com.scaler.productservicedecmwfeve.respositories;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.scaler.productservicedecmwfeve.models.Product;
 import com.scaler.productservicedecmwfeve.respositories.projection.ProductWithIdAndTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +31,11 @@ public interface ProductRepository extends JpaRepository<Product,Long> { //DAO
     Optional<Product> findById(Long  id);
 
     Product save(Product product);
+
+
+
+    @Query(value = "select * from product", nativeQuery = true )
+    List<Product> getAllProduct();
 
 
     @Query("select p.description, p.title from Product p  where p.price<100 and  p.description like '%Iphone%'")

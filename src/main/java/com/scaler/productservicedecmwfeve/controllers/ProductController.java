@@ -31,8 +31,22 @@ public class ProductController {
 
     @GetMapping() // it just needs localhost:8080/products
     public ResponseEntity<List<Product>> getAllProduct(){  //getallproduct does not  need any parameter
-        ResponseEntity<List<Product>> response = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        List<Product>  products = productService.getAllProducts();  // o p q
+        List<Product> finalProduct = new ArrayList<>();
+//        for( int  i =0; i <products.size(); i++) {
+//            finalProduct.add(products.get(i));
+//        }
+
+        for(Product p:products){
+            p.setTitle("Hello "+p.getTitle()); // modifying  o p q
+            finalProduct.add(p);
+
+        }
+//
+        ResponseEntity<List<Product>> response  = new ResponseEntity<>(finalProduct,HttpStatus.FORBIDDEN);
         return  response;
+//        ResponseEntity<List<Product>> response = new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+//        return  response;
     }
 
     @GetMapping("/{id}") //this  id should be  passed in the path variable
