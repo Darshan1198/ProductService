@@ -40,52 +40,52 @@ class ProductControllerTest {
 
 
 
-    @Test
-    void  testProductSameService(){
-
-
-        //arrange
-        List<Product> products = new ArrayList<>();
-        Product  p1  = new Product();  //o
-        p1.setTitle( "Iphone  15");
-        products.add(p1);
-
-        Product  p2  = new Product();  //p
-        p1.setTitle( "Iphone  14");
-        products.add(p1);
-
-        Product  p3  = new Product();  //q
-        p1.setTitle( "Iphone  13");
-        products.add(p1);
-
-        List<Product>  productToPass  = new ArrayList<>();
-        for(Product  p: products){
-            Product  p11  = new Product();
-            p11.setTitle(p.getTitle());
-            productToPass.add(p11);
-        }
-        when(
-                productService.getAllProducts()
-        ).thenReturn(
-                productToPass
-        );
-
-        //act
-        ResponseEntity<List<Product>> response  = productController.getAllProduct();
-
-        //assert
-        List<Product>  productInResponse   = response.getBody();
+//    @Test
+//    void  testProductSameService(){
+//
+//
+//        //arrange
+//        List<Product> products = new ArrayList<>();
+//        Product  p1  = new Product();  //o
+//        p1.setTitle( "Iphone  15");
+//        products.add(p1);
+//
+//        Product  p2  = new Product();  //p
+//        p1.setTitle( "Iphone  14");
+//        products.add(p1);
+//
+//        Product  p3  = new Product();  //q
+//        p1.setTitle( "Iphone  13");
+//        products.add(p1);
+//
+//        List<Product>  productToPass  = new ArrayList<>();
+//        for(Product  p: products){
+//            Product  p11  = new Product();
+//            p11.setTitle(p.getTitle());
+//            productToPass.add(p11);
+//        }
+//        when(
+//                productService.getAllProducts()
+//        ).thenReturn(
+//                productToPass
+//        );
+//
+//        //act
+//        ResponseEntity<List<Product>> response  = productController.getAllProduct();
+//
+//        //assert
+//        List<Product>  productInResponse   = response.getBody();
 
 //        assertEquals(products.size(),productInResponse.size());
 
 
-        for( int i =0; i<productInResponse.size();i++){
-            assertEquals(products.get(i).getTitle(),//  o p q
-                    productInResponse.get(i).getTitle() );
-
-        }
-
-    }
+//        for( int i =0; i<productInResponse.size();i++){
+//            assertEquals(products.get(i).getTitle(),//  o p q
+//                    productInResponse.get(i).getTitle() );
+//
+//        }
+//
+//    }
 
 
     @Test

@@ -1,7 +1,10 @@
 package com.scaler.productservicedecmwfeve.controllers;
 
+import com.scaler.productservicedecmwfeve.commons.AuthenticationCommons;
 import com.scaler.productservicedecmwfeve.dto.FakeStoreProductDto;
 import com.scaler.productservicedecmwfeve.dto.GenericProductDto;
+import com.scaler.productservicedecmwfeve.dto.Role;
+import com.scaler.productservicedecmwfeve.dto.UserDto;
 import com.scaler.productservicedecmwfeve.exception.ProductNotExistsException;
 import com.scaler.productservicedecmwfeve.models.Product;
 import com.scaler.productservicedecmwfeve.services.ProductService;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,17 +24,34 @@ public class ProductController {
 
 
     private ProductService productService;
+    private AuthenticationCommons  authenticationCommons;
+    private RestTemplate  restTemplate;
 
     @Autowired
-
-    public ProductController(@Qualifier("selfProductService") ProductService productService){
+    public ProductController(@Qualifier("selfProductService") ProductService productService, RestTemplate  restTemplate, AuthenticationCommons authenticationCommons){
         this.productService= productService;
+        this.restTemplate  = restTemplate;
+        this.authenticationCommons= authenticationCommons;
     }
-
-
 
     @GetMapping() // it just needs localhost:8080/products
     public ResponseEntity<List<Product>> getAllProduct(){  //getallproduct does not  need any parameter
+
+
+//        UserDto userDto  = authenticationCommons.validateToken(token);
+//        if(userDto== null){
+//            return  new ResponseEntity<>(HttpStatus.FORBIDDEN);
+//        }
+//        boolean  isadmin  = false;
+//
+//        for( Role role: userDto.getRoles()){
+//            if(role.getName().equals("ADMIN")){
+//                isadmin  = true;
+//                break;
+//            }
+//        }
+//        if (!isadmin) return   new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         List<Product>  products = productService.getAllProducts();  // o p q
         List<Product> finalProduct = new ArrayList<>();
 //        for( int  i =0; i <products.size(); i++) {
@@ -79,6 +100,7 @@ public class ProductController {
     public  ResponseEntity<Void> handleProductNotExistsException(){
         return   new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
+
 
 
 }
